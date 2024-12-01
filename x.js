@@ -1,4 +1,4 @@
-// Fetch the API key
+z// Fetch the API key
 async function getApiKey() {
     try {
         console.log("Fetching API key...");
