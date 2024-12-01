@@ -15,7 +15,6 @@ header {
     padding: 2rem;
     color: white;
     width: 100%;
-    
 }
 
 header h1 {
@@ -35,10 +34,9 @@ main {
     align-items: center; /* Center vertically */
     justify-content: center; /* Center horizontally */
     padding: 2rem 0;
-    overflow-x: hidden; /* Prevent horizontal overflow on smaller screens */
 }
 
-/* Ensure the search bar is centered */
+/* Search Bar */
 #search-bar {
     display: flex; /* Use flexbox for alignment */
     justify-content: center; /* Center horizontally */
@@ -54,7 +52,6 @@ main {
     border-radius: 5px;
 }
 
-
 /* Solar System */
 #solar-system {
     display: flex;
@@ -62,7 +59,7 @@ main {
     gap: 3rem; /* Space between planets */
     width: max-content; /* Ensure the container expands based on content */
     padding: 5rem; /* Add padding around the container */
-    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-x: auto; /* Allow horizontal scrolling */
     scrollbar-width: thin; /* Style scrollbar for modern browsers */
     scrollbar-color: #ffcc33 #001f3f; /* Style scrollbar (foreground/background) */
     border-radius: 20px; /* Smooth the edges of the container */
@@ -94,6 +91,7 @@ main {
     cursor: pointer;
     transition: transform 0.3s ease;
     flex-shrink: 0; /* Prevent planets from shrinking */
+    border: 2px solid transparent; /* Add a border for debugging visibility */
 }
 
 .planet:hover {
@@ -110,34 +108,34 @@ main {
 /* Specific Planets */
 #sun {
     background: radial-gradient(circle, #ffcc33, #ff9900);
-    width: 350px; /* Increase the size of the sun */
+    width: 350px; /* Adjusted size for better visibility */
     height: 350px;
     box-shadow: 0 0 50px rgba(255, 204, 51, 0.8);
 }
 
 #mercury {
     background: radial-gradient(circle, #bfbfbf, #8a8a8a);
-    width: 50px;
-    height: 50px;
+    width: 70px; /* Adjusted size for better visibility */
+    height: 70px;
 }
 
 #venus {
     background: radial-gradient(circle, #e6b800, #b38f00);
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
 }
 
 #earth {
     background: radial-gradient(circle, #0077be, #004d73);
-    width: 80px;
-    height: 80px;
+    width: 90px; /* Slightly larger for visibility */
+    height: 90px;
     box-shadow: 0 0 20px rgba(0, 119, 190, 0.6);
 }
 
 #mars {
     background: radial-gradient(circle, #cc3300, #992600);
-    width: 60px;
-    height: 60px;
+    width: 80px; /* Adjusted size for better visibility */
+    height: 80px;
 }
 
 #jupiter {
@@ -167,215 +165,41 @@ main {
 
 #uranus {
     background: radial-gradient(circle, #66ccff, #3399cc);
-    width: 100px;
-    height: 100px;
+    width: 120px; /* Increased size for better visibility */
+    height: 120px;
 }
 
 #neptune {
     background: radial-gradient(circle, #0000ff, #000099);
-    width: 100px;
-    height: 100px;
-}
-
-/* Sun Info Section */
-#sun-info {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    position: relative; /* Allows the sun to position outside of the layout */
-    color: white;
-}
-
-/* Layout Wrapper */
-#sun-info .layout {
-    display: flex;
-    align-items: flex-start;
-    gap: 2rem;
-}
-
-/* Sun Container */
-#sun-container {
-    position: relative;
-    flex-shrink: 0; /* Prevent shrinking */
-    margin-right: -150px; /* Move the sun outside of the layout */
-    padding: 5rem; /* Add padding around the container */
-
-}
-
-/* Sun Figure */
-#sun-figure {
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, #ffcc33, #ff9900); /* Sun gradient */
-    border-radius: 50%;
-    box-shadow: 0 0 50px rgba(255, 204, 51, 0.8); /* Glow effect */
-    animation: pulse 2s infinite ease-in-out; /* Pulsing animation */
-}
-
-/* Pulsing Animation */
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 0 50px rgba(255, 204, 51, 0.8);
-    }
-    50% {
-        transform: scale(1.1);
-        box-shadow: 0 0 70px rgba(255, 204, 51, 1);
-    }
-}
-
-
-/* Sun Container Positioned at the Left End */
-#sun-container {
-    position: absolute;
-    top: 60%; /* Center vertically */
-    left: 0; /* Align to the left edge */
-    transform: translate(-60%, -60%); /* Only half of the sun visible */
-    z-index: 0; /* Ensure it stays behind the text content */
-    overflow: hidden; /* Hide the parts extending out */
-}
-
-/* Sun Figure */
-#sun-figure {
-    width: 550px; /* Bigger size to make half visible */
-    height: 550px;
-    background: radial-gradient(circle, #ffcc33, #ff9900); /* Sun gradient */
-    border-radius: 50%; /* Ensure it is a perfect circle */
-    box-shadow: 0 0 50px rgba(255, 204, 51, 0.8); /* Glow effect */
-    animation: pulse 2s infinite ease-in-out; /* Pulsing animation */
-}
-
-/* Text Content */
-#sun-info article {
-    flex: 1;
-}
-
-#sun-info header h1 {
-    font-size: 3rem;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-}
-
-#sun-info header h2 {
-    font-size: 1.5rem;
-    color: #ffcc33; /* Golden color */
-    margin-bottom: 2rem;
-    text-transform: uppercase;
-}
-
-#sun-info article p {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 2rem;
-    color: #e0e0e0;
-}
-
-#sun-info article ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two-column grid */
-    gap: 1rem;
-}
-
-#sun-info article ul li {
-    font-size: 1rem;
-}
-
-#sun-info article ul li strong {
-    display: block;
-    font-size: 0.9rem;
-    color: #ffcc33; /* Golden color */
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-}
-
-/* Back Button */
-#back-button {
-    display: block;
-    margin: 2rem auto 0 auto;
-    padding: 0.5rem 1rem;
-    background: #ffcc33;
-    color: black;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-#back-button:hover {
-    background-color: #ffaa33;
-    transform: scale(1.1);
+    width: 120px; /* Increased size for better visibility */
+    height: 120px;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    #sun-info .layout {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    #sun-container {
-        margin: 0 auto; /* Center the sun for smaller screens */
-    }
-
-    #sun-figure {
-        width: 200px;
-        height: 200px;
-    }
-
-    #sun-info article ul {
-        grid-template-columns: 1fr; /* Single-column grid */
-    }
-
     #solar-system {
-        flex-direction: column; /* Change to vertical layout */
-        align-items: center; /* Center planets vertically */
+        flex-direction: column; /* Stack planets vertically on smaller screens */
+        align-items: center;
         gap: 2rem; /* Reduce space between planets */
     }
 
     #sun {
-        width: 300px; /* Adjust size for smaller screens */
+        width: 300px;
         height: 300px;
     }
 
     #jupiter {
-        width: 150px; /* Adjust size for smaller screens */
+        width: 150px;
         height: 150px;
     }
 
     #saturn {
-        width: 150px; /* Adjust size for smaller screens */
+        width: 150px;
         height: 150px;
     }
 
-    #uranus,
-    #neptune {
-        width: 80px;
-        height: 80px;
+    #uranus, #neptune {
+        width: 100px;
+        height: 100px;
     }
-
-    #sun-info {
-        padding: 1.5rem;
-        margin: 1rem auto;
-    }
-
-    #sun-info h1 {
-        font-size: 1.5rem;
-    }
-
-    #sun-info p {
-        font-size: 0.9rem;
-    }
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 1rem;
-    background: rgba(0, 0, 0, 0.7); /* Transparent black */
-    color: white;
-    width: 100%;
 }
