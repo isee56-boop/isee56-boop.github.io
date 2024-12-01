@@ -1,13 +1,13 @@
-// Fetch the API key using POST
+// Fetch the API key
 async function getApiKey() {
     try {
         console.log("Fetching API key...");
         const response = await fetch(
             "https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com/keys",
-            {
-                method: "POST",
-            }
+            { method: "POST" }
         );
+
+        console.log("API key response:", response);
 
         if (!response.ok) {
             throw new Error(`Failed to fetch API key: ${response.status}`);
@@ -23,10 +23,11 @@ async function getApiKey() {
     }
 }
 
-// Fetch planet data using the API key
+// Fetch planet data
 async function fetchPlanets(apiKey) {
     try {
-        console.log("Fetching planets...");
+        console.log("Fetching planets with API key:", apiKey);
+
         const response = await fetch(
             "https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com/bodies",
             {
@@ -34,6 +35,8 @@ async function fetchPlanets(apiKey) {
                 headers: { "x-zocom": apiKey },
             }
         );
+
+        console.log("Planets response:", response);
 
         if (!response.ok) {
             throw new Error(`Failed to fetch planets: ${response.status}`);
@@ -49,23 +52,20 @@ async function fetchPlanets(apiKey) {
     }
 }
 
-// Render planet data dynamically into the DOM
+// Render planets into the #solar-system section
 function renderPlanets(planets) {
-    const planetList = document.getElementById("planet-list");
+    const solarSystem = document.getElementById("solar-system");
 
-    if (!planetList) {
-        console.error("Element with ID 'planet-list' not found.");
+    if (!solarSystem) {
+        console.error("Element with ID 'solar-system' not found.");
         return;
     }
 
-    planetList.innerHTML = ""; // Clear any previous content
-
     planets.forEach((planet) => {
-        const listItem = document.createElement("li");
-        listItem.className = "planet-item";
+        const planetElement = document.getElementById(planet.name.toLowerCase());
 
-        listItem.innerHTML = `
-            <div class="planet-details">
+        if (planetElement) {
+            planetElement.innerHTML = `
                 <h2>${planet.name}</h2>
                 <p><b>Latin Name:</b> ${planet.latinName}</p>
                 <p><b>Type:</b> ${planet.type}</p>
@@ -75,72 +75,83 @@ function renderPlanets(planets) {
                 <p><b>Orbital Period:</b> ${planet.orbitalPeriod} Earth days</p>
                 <p><b>Temperature (Day/Night):</b> ${planet.temp.day}°C / ${planet.temp.night}°C</p>
                 <p>${planet.desc}</p>
-            </div>
-        `;
-
-        planetList.appendChild(listItem);
+            `;
+        } else {
+            console.warn(`No HTML element found for planet: ${planet.name}`);
+        }
     });
 }
 
-// Set up search functionality
+// Highlight planets based on search input
 function setupSearch(planets) {
-    const searchBar = document.getElementById("search-bar");
-    const searchButton = document.getElementById("search-button");
-    const searchResult = document.getElementById("search-result");
+    const searchInput = document.getElementById("search-input");
 
-    if (!searchBar || !searchButton || !searchResult) {
-        console.error("Search elements are missing.");
+    if (!searchInput) {
+        console.error("Search input not found.");
         return;
     }
 
-    function performSearch() {
-        const query = searchBar.value.toLowerCase().trim();
-        searchResult.innerHTML = ""; // Clear previous results
-
-        if (query === "") {
-            alert("Please enter a planet name to search.");
-            return;
-        }
-
-        const matchingPlanets = planets.filter((planet) =>
-            planet.name.toLowerCase().includes(query)
-        );
-
-        if (matchingPlanets.length === 0) {
-            searchResult.innerHTML = `<p>No matching planets found.</p>`;
-            return;
-        }
-
-        matchingPlanets.forEach((planet) => {
-            const resultItem = document.createElement("li");
-            resultItem.textContent = planet.name;
-            searchResult.appendChild(resultItem);
+    searchInput.addEventListener("input", () => {
+        const query = searchInput.value.toLowerCase().trim();
+        planets.forEach((planet) => {
+            const planetElement = document.getElementById(planet.name.toLowerCase());
+            if (planetElement) {
+                planetElement.style.display = planet.name.toLowerCase().includes(query)
+                    ? "block"
+                    : "none";
+            }
         });
-    }
-
-    searchButton.addEventListener("click", performSearch);
-    searchBar.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") performSearch();
     });
 }
 
-// Load and initialize the solar system data
+// Fallback data for development/testing
+const dummyPlanets = [
+    {
+        name: "Solen",
+        latinName: "Sol",
+        type: "star",
+        rotation: 25,
+        circumference: 4370000,
+        distance: 0,
+        orbitalPeriod: 0,
+        temp: { day: 5500, night: 5500 },
+        desc: "Solen är stjärnan i centrum av solsystemet.",
+    },
+    {
+        name: "Merkurius",
+        latinName: "Mercury",
+        type: "planet",
+        rotation: 58.6,
+        circumference: 15329,
+        distance: 57910000,
+        orbitalPeriod: 88,
+        temp: { day: 430, night: -180 },
+        desc: "Merkurius är den innersta planeten i solsystemet.",
+    },
+    // Add more planets as needed
+];
+
+// Load and initialize the solar system
 async function loadSolarSystemData() {
     const apiKey = await getApiKey();
 
     if (!apiKey) {
-        console.error("Failed to retrieve API key. Cannot continue.");
+        console.warn("Using fallback data due to missing API key.");
+        renderPlanets(dummyPlanets);
+        setupSearch(dummyPlanets);
         return;
     }
 
     const planets = await fetchPlanets(apiKey);
     if (!planets) {
-        console.error("Failed to fetch planets. Cannot continue.");
+        console.warn("Using fallback data due to failed planet fetch.");
+        renderPlanets(dummyPlanets);
+        setupSearch(dummyPlanets);
         return;
     }
 
-    renderPlanets(planets); // Render the planets
-    setupSearch(planets); // Set up the search functionality
+    renderPlanets(planets); // Populate the planets in the DOM
+    setupSearch(planets); // Enable search functionality
 }
 
 // Ensure the DOM is fully loaded before running the script
