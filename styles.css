@@ -1,0 +1,381 @@
+/* General Layout */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #000622, #012345); /* Black and dark blue gradient */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the body always fills the height of the viewport */
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 2rem;
+    color: white;
+    width: 100%;
+    
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+header p {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+/* Main Content */
+main {
+    flex: 1; /* Allows main content to occupy all available space */
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    padding: 2rem 0;
+    overflow-x: hidden; /* Prevent horizontal overflow on smaller screens */
+}
+
+/* Ensure the search bar is centered */
+#search-bar {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: center; /* Center horizontally */
+    margin: 20px 0; /* Space above and below the search bar */
+}
+
+#search-bar input {
+    width: 80%; /* Take up 80% of the width of its container */
+    max-width: 400px; /* Limit the maximum width */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+/* Solar System */
+#solar-system {
+    display: flex;
+    align-items: center;
+    gap: 3rem; /* Space between planets */
+    width: max-content; /* Ensure the container expands based on content */
+    padding: 5rem; /* Add padding around the container */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    scrollbar-width: thin; /* Style scrollbar for modern browsers */
+    scrollbar-color: #ffcc33 #001f3f; /* Style scrollbar (foreground/background) */
+    border-radius: 20px; /* Smooth the edges of the container */
+}
+
+/* Scrollbar Styling for Webkit Browsers */
+#solar-system::-webkit-scrollbar {
+    height: 8px; /* Scrollbar height */
+}
+
+#solar-system::-webkit-scrollbar-thumb {
+    background-color: #ffcc33; /* Scrollbar thumb color */
+    border-radius: 10px;
+}
+
+#solar-system::-webkit-scrollbar-track {
+    background-color: #001f3f; /* Scrollbar track color */
+}
+
+/* Planet Design */
+.planet {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; /* Make planets circular */
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    flex-shrink: 0; /* Prevent planets from shrinking */
+}
+
+.planet:hover {
+    transform: scale(1.1);
+}
+
+/* Planet Names */
+.planet h2 {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: white;
+}
+
+/* Specific Planets */
+#sun {
+    background: radial-gradient(circle, #ffcc33, #ff9900);
+    width: 350px; /* Increase the size of the sun */
+    height: 350px;
+    box-shadow: 0 0 50px rgba(255, 204, 51, 0.8);
+}
+
+#mercury {
+    background: radial-gradient(circle, #bfbfbf, #8a8a8a);
+    width: 50px;
+    height: 50px;
+}
+
+#venus {
+    background: radial-gradient(circle, #e6b800, #b38f00);
+    width: 70px;
+    height: 70px;
+}
+
+#earth {
+    background: radial-gradient(circle, #0077be, #004d73);
+    width: 80px;
+    height: 80px;
+    box-shadow: 0 0 20px rgba(0, 119, 190, 0.6);
+}
+
+#mars {
+    background: radial-gradient(circle, #cc3300, #992600);
+    width: 60px;
+    height: 60px;
+}
+
+#jupiter {
+    background: radial-gradient(circle, #d9a066, #b37640);
+    width: 200px;
+    height: 200px;
+}
+
+#saturn {
+    background: radial-gradient(circle, #f2e2c6, #d9b38c);
+    width: 180px;
+    height: 180px;
+    position: relative;
+}
+
+#saturn::before {
+    content: '';
+    position: absolute;
+    width: 250px;
+    height: 20px;
+    border: 3px solid #d9b38c;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#uranus {
+    background: radial-gradient(circle, #66ccff, #3399cc);
+    width: 100px;
+    height: 100px;
+}
+
+#neptune {
+    background: radial-gradient(circle, #0000ff, #000099);
+    width: 100px;
+    height: 100px;
+}
+
+/* Sun Info Section */
+#sun-info {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative; /* Allows the sun to position outside of the layout */
+    color: white;
+}
+
+/* Layout Wrapper */
+#sun-info .layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+/* Sun Container */
+#sun-container {
+    position: relative;
+    flex-shrink: 0; /* Prevent shrinking */
+    margin-right: -150px; /* Move the sun outside of the layout */
+    padding: 5rem; /* Add padding around the container */
+
+}
+
+/* Sun Figure */
+#sun-figure {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, #ffcc33, #ff9900); /* Sun gradient */
+    border-radius: 50%;
+    box-shadow: 0 0 50px rgba(255, 204, 51, 0.8); /* Glow effect */
+    animation: pulse 2s infinite ease-in-out; /* Pulsing animation */
+}
+
+/* Pulsing Animation */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 50px rgba(255, 204, 51, 0.8);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 70px rgba(255, 204, 51, 1);
+    }
+}
+
+
+/* Sun Container Positioned at the Left End */
+#sun-container {
+    position: absolute;
+    top: 60%; /* Center vertically */
+    left: 0; /* Align to the left edge */
+    transform: translate(-60%, -60%); /* Only half of the sun visible */
+    z-index: 0; /* Ensure it stays behind the text content */
+    overflow: hidden; /* Hide the parts extending out */
+}
+
+/* Sun Figure */
+#sun-figure {
+    width: 550px; /* Bigger size to make half visible */
+    height: 550px;
+    background: radial-gradient(circle, #ffcc33, #ff9900); /* Sun gradient */
+    border-radius: 50%; /* Ensure it is a perfect circle */
+    box-shadow: 0 0 50px rgba(255, 204, 51, 0.8); /* Glow effect */
+    animation: pulse 2s infinite ease-in-out; /* Pulsing animation */
+}
+
+/* Text Content */
+#sun-info article {
+    flex: 1;
+}
+
+#sun-info header h1 {
+    font-size: 3rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+#sun-info header h2 {
+    font-size: 1.5rem;
+    color: #ffcc33; /* Golden color */
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+}
+
+#sun-info article p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #e0e0e0;
+}
+
+#sun-info article ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two-column grid */
+    gap: 1rem;
+}
+
+#sun-info article ul li {
+    font-size: 1rem;
+}
+
+#sun-info article ul li strong {
+    display: block;
+    font-size: 0.9rem;
+    color: #ffcc33; /* Golden color */
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+/* Back Button */
+#back-button {
+    display: block;
+    margin: 2rem auto 0 auto;
+    padding: 0.5rem 1rem;
+    background: #ffcc33;
+    color: black;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+#back-button:hover {
+    background-color: #ffaa33;
+    transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #sun-info .layout {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    #sun-container {
+        margin: 0 auto; /* Center the sun for smaller screens */
+    }
+
+    #sun-figure {
+        width: 200px;
+        height: 200px;
+    }
+
+    #sun-info article ul {
+        grid-template-columns: 1fr; /* Single-column grid */
+    }
+
+    #solar-system {
+        flex-direction: column; /* Change to vertical layout */
+        align-items: center; /* Center planets vertically */
+        gap: 2rem; /* Reduce space between planets */
+    }
+
+    #sun {
+        width: 300px; /* Adjust size for smaller screens */
+        height: 300px;
+    }
+
+    #jupiter {
+        width: 150px; /* Adjust size for smaller screens */
+        height: 150px;
+    }
+
+    #saturn {
+        width: 150px; /* Adjust size for smaller screens */
+        height: 150px;
+    }
+
+    #uranus,
+    #neptune {
+        width: 80px;
+        height: 80px;
+    }
+
+    #sun-info {
+        padding: 1.5rem;
+        margin: 1rem auto;
+    }
+
+    #sun-info h1 {
+        font-size: 1.5rem;
+    }
+
+    #sun-info p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.7); /* Transparent black */
+    color: white;
+    width: 100%;
+}
