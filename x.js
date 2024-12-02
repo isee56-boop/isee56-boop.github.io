@@ -1,6 +1,7 @@
 // Fetch the API key
 async function getApiKey() {
     try {
+        console.log("Fetching API key...");
         const response = await fetch(
             "https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com/keys",
             { method: "POST" }
@@ -11,6 +12,7 @@ async function getApiKey() {
         }
 
         const data = await response.json();
+        console.log("Fetched API key:", data.key);
         return data.key;
     } catch (error) {
         console.error("Error fetching API key:", error);
@@ -22,6 +24,8 @@ async function getApiKey() {
 // Fetch planet data
 async function fetchPlanets(apiKey) {
     try {
+        console.log("Fetching planets with API key:", apiKey);
+
         const response = await fetch(
             "https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com/bodies",
             {
@@ -35,6 +39,7 @@ async function fetchPlanets(apiKey) {
         }
 
         const data = await response.json();
+        console.log("Fetched planets:", data.bodies);
         return data.bodies;
     } catch (error) {
         console.error("Error fetching planets:", error);
