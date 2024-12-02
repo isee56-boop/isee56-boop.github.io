@@ -7,14 +7,11 @@ async function getApiKey() {
             { method: "POST" }
         );
 
-        console.log("API key response:", response);
-
         if (!response.ok) {
             throw new Error(`Failed to fetch API key: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log("Fetched API key:", data.key);
         return data.key;
     } catch (error) {
         console.error("Error fetching API key:", error);
@@ -36,14 +33,11 @@ async function fetchPlanets(apiKey) {
             }
         );
 
-        console.log("Planets response:", response);
-
         if (!response.ok) {
             throw new Error(`Failed to fetch planets: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log("Fetched planets:", data.bodies);
         return data.bodies;
     } catch (error) {
         console.error("Error fetching planets:", error);
@@ -62,23 +56,48 @@ function renderPlanets(planets) {
     }
 
     planets.forEach((planet) => {
-        const planetElement = document.getElementById(planet.name.toLowerCase());
+        const planetElement = document.createElement("div");
+        planetElement.classList.add("planet");
+        planetElement.id = planet.name.toLowerCase();
+        planetElement.innerHTML = `<h2>${planet.name}</h2>`;
+        solarSystem.appendChild(planetElement);
+    });
+}
 
-        if (planetElement) {
-            planetElement.innerHTML = `
-                <h2>${planet.name}</h2>
-                <p><b>Latin Name:</b> ${planet.latinName}</p>
-                <p><b>Type:</b> ${planet.type}</p>
-                <p><b>Rotation Period:</b> ${planet.rotation} Earth days</p>
-                <p><b>Circumference:</b> ${planet.circumference.toLocaleString()} km</p>
-                <p><b>Distance from Sun:</b> ${planet.distance.toLocaleString()} km</p>
-                <p><b>Orbital Period:</b> ${planet.orbitalPeriod} Earth days</p>
-                <p><b>Temperature (Day/Night):</b> ${planet.temp.day}°C / ${planet.temp.night}°C</p>
-                <p>${planet.desc}</p>
-            `;
-        } else {
-            console.warn(`No HTML element found for planet: ${planet.name}`);
-        }
+// Setup click functionality for planets
+function setupPlanetClick(planets) {
+    const solarSystem = document.getElementById("solar-system");
+    const planetInfo = document.getElementById("planet-info");
+
+    planets.forEach((planet) => {
+        const planetElement = document.getElementById(planet.name.toLowerCase());
+        planetElement.addEventListener("click", () => {
+            // Show planet info view
+            solarSystem.style.display = "none";
+            planetInfo.style.display = "block";
+
+            // Fill planet info
+            document.getElementById("planet-name").textContent = planet.name;
+            document.getElementById("planet-latin-name").textContent = planet.latinName;
+            document.getElementById("planet-desc").textContent = planet.desc;
+            document.getElementById("planet-circumference").textContent = `${planet.circumference.toLocaleString()} km`;
+            document.getElementById("planet-distance").textContent = `${planet.distance.toLocaleString()} km`;
+            document.getElementById("planet-temp-max").textContent = `${planet.temp.day}°C`;
+            document.getElementById("planet-temp-min").textContent = `${planet.temp.night}°C`;
+        });
+    });
+}
+
+// Setup back button functionality
+function setupBackButton() {
+    const backButton = document.getElementById("back-to-main");
+    const solarSystem = document.getElementById("solar-system");
+    const planetInfo = document.getElementById("planet-info");
+
+    backButton.addEventListener("click", () => {
+        // Hide planet info view and show solar system
+        planetInfo.style.display = "none";
+        solarSystem.style.display = "flex";
     });
 }
 
@@ -134,24 +153,17 @@ const dummyPlanets = [
 // Load and initialize the solar system
 async function loadSolarSystemData() {
     const apiKey = await getApiKey();
+    const planets = apiKey ? await fetchPlanets(apiKey) : dummyPlanets;
 
-    if (!apiKey) {
-        console.warn("Using fallback data due to missing API key.");
-        renderPlanets(dummyPlanets);
-        setupSearch(dummyPlanets);
-        return;
-    }
-
-    const planets = await fetchPlanets(apiKey);
     if (!planets) {
         console.warn("Using fallback data due to failed planet fetch.");
-        renderPlanets(dummyPlanets);
-        setupSearch(dummyPlanets);
         return;
     }
 
-    renderPlanets(planets); // Populate the planets in the DOM
-    setupSearch(planets); // Enable search functionality
+    renderPlanets(planets);   // Render planets in the DOM
+    setupSearch(planets);     // Setup search functionality
+    setupPlanetClick(planets); // Setup click functionality for planets
+    setupBackButton();        // Setup back button
 }
 
 // Ensure the DOM is fully loaded before running the script
