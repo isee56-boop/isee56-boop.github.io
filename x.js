@@ -166,4 +166,3 @@ async function loadSolarSystemData() {
 
 // Ensure the DOM is fully loaded before running the script
 document.addEventListener("DOMContentLoaded", loadSolarSystemData);
-
