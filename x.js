@@ -48,66 +48,71 @@ async function fetchPlanets(apiKey) {
     }
 }
 
-// Render planets into the #solar-system section
+// Render planets into the planet list section
 function renderPlanets(planets) {
-    const solarSystem = document.getElementById("solar-system");
+    const planetList = document.getElementById("planet-list");
 
-    if (!solarSystem) {
-        console.error("Element with ID 'solar-system' not found.");
+    if (!planetList) {
+        console.error("Element with ID 'planet-list' not found.");
         return;
     }
 
     // Clear previous content to avoid duplicates
-    solarSystem.innerHTML = "";
+    planetList.innerHTML = "";
 
-    // Create planet elements dynamically
+    // Create planet buttons dynamically
     planets.forEach((planet) => {
-        const planetElement = document.createElement("div");
-        planetElement.classList.add("planet");
-        planetElement.id = planet.name.toLowerCase();
-        planetElement.innerHTML = `<h2>${planet.name}</h2>`;
-        solarSystem.appendChild(planetElement);
+        const planetButton = document.createElement("button");
+        planetButton.setAttribute("aria-label", `Lär dig mer om ${planet.name}`);
+        planetButton.classList.add("planet-button");
+        planetButton.textContent = planet.name;
+        planetList.appendChild(planetButton);
 
         // Add click event to show planet details
-        planetElement.addEventListener("click", () => showPlanetInfo(planet));
+        planetButton.addEventListener("click", () => showPlanetInfo(planet));
     });
+    console.log("Rendering planets:", planets);
 }
 
-// Show planetspecific information and switch views
+// Show planet-specific information and switch views
 function showPlanetInfo(planet) {
-    const solarSystem = document.getElementById("solar-system");
-    const planetInfo = document.getElementById("planet-info");
+    const planetList = document.getElementById("planet-list");
+    const planetDetails = document.getElementById("planet-details");
 
-    // Hide solar system and show planet info
-    solarSystem.style.display = "none";
-    planetInfo.style.display = "block";
+    // Hide the planet list and show planet details
+    planetList.style.display = "none";
+    planetDetails.classList.add("visible");
 
-    // Fill in planet information dynamically
-    document.getElementById("planet-name").textContent = planet.name;
-    document.getElementById("planet-latin-name").textContent = planet.latinName;
-    document.getElementById("planet-desc").textContent = planet.desc;
+    // Populate planet details dynamically
+    document.getElementById("planet-title").textContent = planet.name;
+    document.getElementById("planet-subtitle").textContent = planet.latinName;
+    document.getElementById("planet-description").textContent = planet.desc;
     document.getElementById("planet-circumference").textContent = `${planet.circumference.toLocaleString()} km`;
     document.getElementById("planet-distance").textContent = `${planet.distance.toLocaleString()} km`;
-    document.getElementById("planet-temp-max").textContent = `${planet.temp.day}°C`;
-    document.getElementById("planet-temp-min").textContent = `${planet.temp.night}°C`;
+    document.getElementById("planet-max-temp").textContent = `${planet.temp.day}°C`;
+    document.getElementById("planet-min-temp").textContent = `${planet.temp.night}°C`;
+
+    console.log(`Displaying info for planet: ${planet.name}`);
 }
 
 // Setup back button functionality
 function setupBackButton() {
-    const backButton = document.getElementById("back-to-main");
-    const solarSystem = document.getElementById("solar-system");
-    const planetInfo = document.getElementById("planet-info");
-
+    const backButton = document.getElementById("return-to-list");
     backButton.addEventListener("click", () => {
-        // Hide planet info and show solar system
-        planetInfo.style.display = "none";
-        solarSystem.style.display = "flex";
+        const planetList = document.getElementById("planet-list");
+        const planetDetails = document.getElementById("planet-details");
+
+        // Hide planet details and show planet list
+        planetDetails.classList.remove("visible");
+        planetList.style.display = "flex";
+
+        console.log("Back to planet list.");
     });
 }
 
 // Highlight planets based on search input
 function setupSearch(planets) {
-    const searchInput = document.getElementById("search-input");
+    const searchInput = document.getElementById("planet-search");
 
     if (!searchInput) {
         console.error("Search input not found.");
@@ -117,9 +122,11 @@ function setupSearch(planets) {
     searchInput.addEventListener("input", () => {
         const query = searchInput.value.toLowerCase().trim();
         planets.forEach((planet) => {
-            const planetElement = document.getElementById(planet.name.toLowerCase());
-            if (planetElement) {
-                planetElement.style.display = planet.name.toLowerCase().includes(query)
+            const planetButton = document.querySelector(
+                `button[aria-label='Lär dig mer om ${planet.name}']`
+            );
+            if (planetButton) {
+                planetButton.style.display = planet.name.toLowerCase().includes(query)
                     ? "block"
                     : "none";
             }
@@ -127,40 +134,18 @@ function setupSearch(planets) {
     });
 }
 
-// Fallback data for development/testing
-const dummyPlanets = [
-    {
-        name: "Solen",
-        latinName: "Sol",
-        type: "star",
-        rotation: 25,
-        circumference: 4370000,
-        distance: 0,
-        orbitalPeriod: 0,
-        temp: { day: 5500, night: 5500 },
-        desc: "Solen är stjärnan i centrum av solsystemet.",
-    },
-    {
-        name: "Merkurius",
-        latinName: "Mercury",
-        type: "planet",
-        rotation: 58.6,
-        circumference: 15329,
-        distance: 57910000,
-        orbitalPeriod: 88,
-        temp: { day: 430, night: -180 },
-        desc: "Merkurius är den innersta planeten i solsystemet.",
-    },
-    // Add more planets as needed
-];
-
 // Load and initialize the solar system
 async function loadSolarSystemData() {
     const apiKey = await getApiKey();
-    const planets = apiKey ? await fetchPlanets(apiKey) : dummyPlanets;
+    if (!apiKey) {
+        console.error("No API key available. Exiting.");
+        return;
+    }
+
+    const planets = await fetchPlanets(apiKey);
 
     if (!planets) {
-        console.warn("Using fallback data due to failed planet fetch.");
+        console.error("No planets available. Exiting.");
         return;
     }
 
@@ -172,4 +157,3 @@ async function loadSolarSystemData() {
 // Ensure the DOM is fully loaded before running the script
 document.addEventListener("DOMContentLoaded", loadSolarSystemData);
 
- 
