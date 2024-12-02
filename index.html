@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
@@ -7,49 +7,52 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <h1>Solsystemet</h1>
-        <p>Klicka på en planet för att lära dig mer!</p>
+    <!-- Site Header -->
+    <header class="site-header">
+        <h1 class="site-title">Solsystemet</h1>
+        <p class="site-subtitle">Klicka på en planet för att lära dig mer!</p>
     </header>
 
     <!-- Main Content -->
-    <main>
+    <main class="main-content">
         <!-- Search Section -->
-        <section id="search-bar">
-            <input type="text" id="search-input" placeholder="Sök efter planeter...">
+        <section class="search-section">
+            <input type="text" id="planet-search" class="search-input" placeholder="Sök efter planeter...">
         </section>
 
         <!-- Solar System Section -->
-        <section id="solar-system">
-            <!-- Planeter renderas här dynamiskt av JavaScript -->
+        <section id="planet-list" class="solar-system">
+            <!-- Planets will be dynamically added here by JavaScript -->
         </section>
 
         <!-- Planet Info Section -->
-        <section id="planet-info" style="display: none;">
-            <button id="back-to-main">Tillbaka till Solsystemet</button>
-            <article>
-                <header>
-                    <h1 id="planet-name"></h1>
-                    <h2 id="planet-latin-name"></h2>
+        <section id="planet-details" class="planet-info hidden">
+            <button id="return-to-list" class="back-button">Tillbaka till Solsystemet</button>
+            <article class="planet-article">
+                <header class="planet-header">
+                    <h1 id="planet-title" class="planet-name"></h1>
+                    <h2 id="planet-subtitle" class="planet-latin-name"></h2>
                 </header>
-                <p id="planet-desc"></p>
-                <ul>
-                    <li><b>Omkrets:</b> <p id="planet-circumference"></p></li>
-                    <li><b>KM från solen:</b> <p id="planet-distance"></p></li>
-                    <li><b>Max temperatur:</b> <p id="planet-temp-max"></p></li>
-                    <li><b>Min temperatur:</b> <p id="planet-temp-min"></p></li>
+                <p id="planet-description" class="planet-desc"></p>
+                <ul class="planet-stats">
+                    <li><b>Omkrets:</b> <p id="planet-circumference" class="planet-circumference"></p></li>
+                    <li><b>KM från solen:</b> <p id="planet-distance" class="planet-distance"></p></li>
+                    <li><b>Max temperatur:</b> <p id="planet-max-temp" class="planet-max-temp"></p></li>
+                    <li><b>Min temperatur:</b> <p id="planet-min-temp" class="planet-min-temp"></p></li>
                 </ul>
             </article>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2024 Solsystemet</p>
+    <!-- Site Footer -->
+    <footer class="site-footer">
+        <p class="footer-text">© 2024 Solsystemet</p>
     </footer>
 
     <!-- JavaScript -->
     <script src="x.js"></script>
 </body>
 </html>
+
+
+
