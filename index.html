@@ -10,18 +10,19 @@
     <!-- Header -->
     <header>
         <h1>Solsystemet</h1>
-        <p>Klicka på solen för att lära dig mer!</p>
+        <p>Klicka på en planet för att lära dig mer!</p>
     </header>
 
     <!-- Main Content -->
     <main>
         <!-- Search Section -->
         <section id="search-bar">
-            <input type="text" id="search-input" placeholder="Sök ">
+            <input type="text" id="search-input" placeholder="Sök">
         </section>
 
         <!-- Solar System Section -->
         <section id="solar-system">
+            <!-- Planeter -->
             <article class="planet" id="solen">
                 <h2>Solen</h2>
             </article>
@@ -51,7 +52,23 @@
             </article>
         </section>
 
-      
+        <!-- Planet Info Section -->
+        <section id="planet-info" style="display: none;">
+            <button id="back-to-main">Tillbaka till Solsystemet</button>
+            <article>
+                <header>
+                    <h1 id="planet-name"></h1>
+                    <h2 id="planet-latin-name"></h2>
+                </header>
+                <p id="planet-desc"></p>
+                <ul>
+                    <li><b>Omkrets:</b> <p id="planet-circumference"></p></li>
+                    <li><b>KM från solen:</b> <p id="planet-distance"></p></li>
+                    <li><b>Max temperatur:</b> <p id="planet-temp-max"></p></li>
+                    <li><b>Min temperatur:</b> <p id="planet-temp-min"></p></li>
+                </ul>
+            </article>
+        </section>
     </main>
 
     <!-- Footer -->
@@ -63,3 +80,4 @@
     <script src="x.js"></script>
 </body>
 </html>
+
