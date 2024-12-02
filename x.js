@@ -75,6 +75,8 @@ function renderPlanets(planets) {
 
 // Show planetspecific information and switch views
 function showPlanetInfo(planet) {
+    console.log("Showing info for planet:", planet);
+
     const solarSystem = document.getElementById("solar-system");
     const planetInfo = document.getElementById("planet-info");
 
@@ -86,10 +88,20 @@ function showPlanetInfo(planet) {
     document.getElementById("planet-name").textContent = planet.name;
     document.getElementById("planet-latin-name").textContent = planet.latinName;
     document.getElementById("planet-desc").textContent = planet.desc;
-    document.getElementById("planet-circumference").textContent = `${planet.circumference.toLocaleString()} km`;
-    document.getElementById("planet-distance").textContent = `${planet.distance.toLocaleString()} km`;
-    document.getElementById("planet-temp-max").textContent = `${planet.temp.day}°C`;
-    document.getElementById("planet-temp-min").textContent = `${planet.temp.night}°C`;
+
+    // Ensure proper rendering of data
+    document.getElementById("planet-circumference").textContent = planet.circumference
+        ? `${planet.circumference.toLocaleString()} km`
+        : "Data saknas";
+    document.getElementById("planet-distance").textContent = planet.distance
+        ? `${planet.distance.toLocaleString()} km`
+        : "Data saknas";
+    document.getElementById("planet-temp-max").textContent = planet.temp?.day
+        ? `${planet.temp.day}°C`
+        : "Data saknas";
+    document.getElementById("planet-temp-min").textContent = planet.temp?.night
+        ? `${planet.temp.night}°C`
+        : "Data saknas";
 }
 
 // Setup back button functionality
@@ -130,26 +142,20 @@ function setupSearch(planets) {
 // Fallback data for development/testing
 const dummyPlanets = [
     {
-        name: "Solen",
-        latinName: "Sol",
-        type: "star",
-        rotation: 25,
-        circumference: 4370000,
-        distance: 0,
-        orbitalPeriod: 0,
-        temp: { day: 5500, night: 5500 },
-        desc: "Solen är stjärnan i centrum av solsystemet.",
+        name: "Jorden",
+        latinName: "Tellus",
+        desc: "Jorden är den största och mest kompakta av de inre planeterna.",
+        circumference: 40075,
+        distance: 149600000,
+        temp: { day: 60, night: -50 },
     },
     {
-        name: "Merkurius",
-        latinName: "Mercury",
-        type: "planet",
-        rotation: 58.6,
-        circumference: 15329,
-        distance: 57910000,
-        orbitalPeriod: 88,
-        temp: { day: 430, night: -180 },
-        desc: "Merkurius är den innersta planeten i solsystemet.",
+        name: "Mars",
+        latinName: "Mars",
+        desc: "Mars är en torr ökenvärld med en tunn atmosfär.",
+        circumference: 21344,
+        distance: 227940000,
+        temp: { day: 20, night: -73 },
     },
     // Add more planets as needed
 ];
