@@ -1,7 +1,6 @@
 // Fetch the API key
 async function getApiKey() {
     try {
-        console.log("Fetching API key...");
         const response = await fetch(
             "https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com/keys",
             { method: "POST" }
@@ -23,8 +22,6 @@ async function getApiKey() {
 // Fetch planet data
 async function fetchPlanets(apiKey) {
     try {
-        console.log("Fetching planets with API key:", apiKey);
-
         const response = await fetch(
             "https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com/bodies",
             {
@@ -55,37 +52,39 @@ function renderPlanets(planets) {
         return;
     }
 
+    // Clear previous content to avoid duplicates
+    solarSystem.innerHTML = "";
+
+    // Create planet elements dynamically
     planets.forEach((planet) => {
         const planetElement = document.createElement("div");
         planetElement.classList.add("planet");
         planetElement.id = planet.name.toLowerCase();
         planetElement.innerHTML = `<h2>${planet.name}</h2>`;
         solarSystem.appendChild(planetElement);
+
+        // Add click event to show planet details
+        planetElement.addEventListener("click", () => showPlanetInfo(planet));
     });
 }
 
-// Setup click functionality for planets
-function setupPlanetClick(planets) {
+// Show planetspecific information and switch views
+function showPlanetInfo(planet) {
     const solarSystem = document.getElementById("solar-system");
     const planetInfo = document.getElementById("planet-info");
 
-    planets.forEach((planet) => {
-        const planetElement = document.getElementById(planet.name.toLowerCase());
-        planetElement.addEventListener("click", () => {
-            // Show planet info view
-            solarSystem.style.display = "none";
-            planetInfo.style.display = "block";
+    // Hide solar system and show planet info
+    solarSystem.style.display = "none";
+    planetInfo.style.display = "block";
 
-            // Fill planet info
-            document.getElementById("planet-name").textContent = planet.name;
-            document.getElementById("planet-latin-name").textContent = planet.latinName;
-            document.getElementById("planet-desc").textContent = planet.desc;
-            document.getElementById("planet-circumference").textContent = `${planet.circumference.toLocaleString()} km`;
-            document.getElementById("planet-distance").textContent = `${planet.distance.toLocaleString()} km`;
-            document.getElementById("planet-temp-max").textContent = `${planet.temp.day}°C`;
-            document.getElementById("planet-temp-min").textContent = `${planet.temp.night}°C`;
-        });
-    });
+    // Fill in planet information dynamically
+    document.getElementById("planet-name").textContent = planet.name;
+    document.getElementById("planet-latin-name").textContent = planet.latinName;
+    document.getElementById("planet-desc").textContent = planet.desc;
+    document.getElementById("planet-circumference").textContent = `${planet.circumference.toLocaleString()} km`;
+    document.getElementById("planet-distance").textContent = `${planet.distance.toLocaleString()} km`;
+    document.getElementById("planet-temp-max").textContent = `${planet.temp.day}°C`;
+    document.getElementById("planet-temp-min").textContent = `${planet.temp.night}°C`;
 }
 
 // Setup back button functionality
@@ -95,7 +94,7 @@ function setupBackButton() {
     const planetInfo = document.getElementById("planet-info");
 
     backButton.addEventListener("click", () => {
-        // Hide planet info view and show solar system
+        // Hide planet info and show solar system
         planetInfo.style.display = "none";
         solarSystem.style.display = "flex";
     });
@@ -162,9 +161,9 @@ async function loadSolarSystemData() {
 
     renderPlanets(planets);   // Render planets in the DOM
     setupSearch(planets);     // Setup search functionality
-    setupPlanetClick(planets); // Setup click functionality for planets
     setupBackButton();        // Setup back button
 }
 
 // Ensure the DOM is fully loaded before running the script
 document.addEventListener("DOMContentLoaded", loadSolarSystemData);
+
