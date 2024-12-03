@@ -1,14 +1,23 @@
-/* General Layout */
-body {
+/* Reset HTML and Body */
+html, body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    padding: 0;
+    width: 100%;
+    height: calc(var(--vh, 1vh) * 100); /* Use custom --vh for dynamic height */
+    box-sizing: border-box;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
     background: linear-gradient(135deg, #000000, #010a35); /* Black and dark blue gradient */
     color: white;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    overflow-x: hidden;
+    font-family: Arial, sans-serif;
 }
+
+/* Root Custom Property for Viewport Height */
+:root {
+    --vh: 1vh; /* Default fallback value */
+}
+
 
 body::after {
     content: '';
@@ -387,4 +396,5 @@ body::after {
         padding: 0.5rem; /* Further reduce padding */
     }
 }
+
 
