@@ -1,3 +1,15 @@
+function setViewportHeight() {
+    const vh = window.innerHeight * 0.01; // Calculate 1% of viewport height
+    document.documentElement.style.setProperty('--vh', `${vh}px`); // Set the custom property
+}
+
+// Update the viewport height on resize
+window.addEventListener('resize', setViewportHeight);
+setViewportHeight(); // Initial calculation
+
+
+
+
 // Fetch the API key
 async function getApiKey() {
     try {
