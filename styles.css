@@ -1,18 +1,11 @@
-html, body {
-    min-height: 100vh; /* Ensure full vertical coverage */
-    max-width: 100vw; /* Prevent horizontal overflow */
+body {
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #000000, #010a35); /* Black and dark blue gradient */
+    color: white;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #000000, #010a35); /* Adds a gradient background */
-    color: white; /* Text color */
-    font-family: monospace; /* Font styling */
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-    z-index: -1; /* Ensures no unwanted layering */
+    min-height: 100vh;
 }
 
 
