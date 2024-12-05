@@ -1,351 +1,340 @@
-/* Basen för hela sidan */
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100svh; /* Använder den minsta synliga höjden */
-    width: 100vw; /* Full bredd */
-    box-sizing: border-box;
-    overflow-x: hidden; /* Förhindra horisontell scroll */
-}
-
-/* För moderna enheter med safe areas */
 body {
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) 
-             env(safe-area-inset-bottom) env(safe-area-inset-left);
-    display: flex; /* Om du vill centrera innehållet */
-    flex-direction: column;
-}
-
-/* Fallback för äldre webbläsare */
-@supports not (height: 100svh) {
-    html, body {
-        height: 100vh; /* Använd 100vh som fallback */
-    }
-}
-
-/* För bakgrundsfärg eller bilder */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100svh;
-    z-index: -1; /* Placera i bakgrunden */
-    background: linear-gradient(135deg, #000000, #010a35); /* Ändra efter behov */
-}
-
-/* Förhindra layoutskift */
-* {
+    min-height: 100vh; /* Ensure it stretches to the full viewport height */
+    max-width: 100vw; /* Prevents the width from exceeding the viewport */
     margin: 0;
-    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #000000, #010a35); /* Black and dark blue gradient */
+    color: white;
+    display: flex; /* Use flex for layout */
+    flex-direction: column; /* Stack content vertically */
+    justify-content: flex-start; /* Align content to the top */
+    min-height: 100vh; /* Ensure body fills full viewport height */
+    max-width: 100vw; /* Prevent overflow beyond the viewport width */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
     box-sizing: border-box;
+}
+
+body::after {
+    content: ''; /* Creates a pseudo-element without any content */
+    position: fixed; /* Ensures the pseudo-element stays in the same position even when scrolling */
+    top: 0; /* Positions the element at the top of the viewport */
+    left: 0; /* Aligns the element to the left of the viewport */
+    width: 100%; /* Covers the full width of the viewport */
+    height: 100%; /* Covers the full height of the viewport */
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 5px) 10px 10px,
+                radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 3px) 20px 20px;
+    /* Creates two overlapping radial gradients to create a subtle star pattern effect */
+    background-size: 100px 100px; /* Defines the size of the grid pattern */
+    z-index: -1; /* Places the pseudo-element behind all other content */
+    pointer-events: none; /* Prevents the pseudo-element from interfering with user interactions */
 }
 
 /* Header Styling */
 .site-header {
-    text-align: right;
-    padding: 2rem 1rem;
-    color: #ffffff;
+    text-align: right; /* Aligns the header content to the right */
+    padding: 2rem 1rem; /* Adds spacing around the header content */
+    color: #ffffff; /* Sets the text color to white */
 }
 
 .site-title {
-    margin: 0;
-    font-size: 3rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1rem;
-    color: #ffd700; /* Golden title */
+    margin: 0; /* Removes default margins */
+    font-size: 3rem; /* Makes the title text large */
+    text-transform: uppercase; /* Converts text to uppercase */
+    letter-spacing: 0.1rem; /* Adds extra spacing between letters */
+    color: #ffd700; /* Sets the title color to gold */
 }
 
 .site-subtitle {
-    margin: 0.5rem 0 0;
-    font-size: 1.2rem;
-    font-style: italic;
-    color: #d1c4f7; /* Light purple subtitle */
+    margin: 0.5rem 0 0; /* Adds some spacing above the subtitle */
+    font-size: 1.2rem; /* Makes the subtitle slightly smaller */
+    font-style: italic; /* Adds an italic style to the subtitle */
+    color: #d1c4f7; /* Sets a light purple color for the subtitle */
 }
 
 /* Main Content */
-
 .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 1rem;
-    width: 100%;
-    max-width: 1200px;
-    box-sizing: border-box;
-    margin: 0 auto;
+    flex: 1; /* Allows the main content to take up all available vertical space */
+    display: flex; /* Enables flexbox layout for better content organization */
+    flex-direction: column; /* Stacks child elements vertically */
+    align-items: center; /* Centers child elements horizontally */
+    justify-content: center; /* Centers child elements vertically */
+    padding: 2rem 1rem; /* Adds padding inside the content */
+    width: 100%; /* Ensures the content spans the full width */
+    max-width: 1200px; /* Limits the maximum width for readability */
+    box-sizing: border-box; /* Includes padding and border in the total width/height calculation */
+    margin: 0 auto; /* Centers the content horizontally */
 }
 
+/* Responsive Design for Medium Screens (up to 768px wide) */
 @media (max-width: 768px) {
     .main-content {
-        padding: 1rem;
-        max-width: 95%;
+        padding: 1rem; /* Reduces padding for smaller screen widths */
+        max-width: 95%; /* Makes the content more flexible */
     }
 }
 
+/* Responsive Design for Small Screens (up to 480px wide) */
 @media (max-width: 480px) {
     .main-content {
-        padding: 0.5rem;
-        max-width: 100%;
+        padding: 0.5rem; /* Further reduces padding for very small screens */
+        max-width: 100%; /* Allows the content to span the full width */
     }
 }
 
 /* Search Section */
 .search-section {
-    margin-bottom: 2rem;
+    margin-bottom: 2rem; /* Adds spacing below the search field */
 }
 
 .search-input {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    outline: none;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    transition: border 0.3s ease;
+    padding: 0.5rem 1rem; /* Adds inner padding for the search input */
+    font-size: 1rem; /* Sets a standard font size */
+    border: none; /* Removes default browser borders */
+    border-radius: 5px; /* Rounds the corners of the input field */
+    outline: none; /* Removes the default outline on focus */
+    background: rgba(255, 255, 255, 0.1); /* Adds a subtle transparent background */
+    color: white; /* Makes the text inside the input white */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Adds a subtle border */
+    transition: border 0.3s ease; /* Smoothly transitions the border color on focus */
 }
 
 .search-input:focus {
-    border-color: #b38bf5; /* Purple border on focus */
+    border-color: #b38bf5; /* Changes the border color to purple when focused */
 }
 
 /* Solar System Section */
 .solar-system {
-    display: flex;
-    align-items: center;
-    gap: 2rem; /* Space between planets */
-    padding: 1rem;
-    overflow-x: auto;
-    white-space: nowrap;
-    max-width: 100%; /* Restrict width to viewport */
-    background: rgba(20, 20, 40, 0.7); /* Dark background with transparency */
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(179, 139, 245, 0.5); /* Purple container shadow */
-    scrollbar-width: thin;
-    scrollbar-color: #b38bf5 transparent;
+    display: flex; /* Enables flexbox for horizontal alignment of planet buttons */
+    align-items: center; /* Vertically centers the planets within the container */
+    gap: 2rem; /* Adds space between each planet */
+    padding: 1rem; /* Adds padding inside the container for spacing */
+    overflow-x: auto; /* Allows horizontal scrolling if planets exceed the container width */
+    white-space: nowrap; /* Prevents planet buttons from wrapping to a new line */
+    max-width: 100%; /* Ensures the container does not exceed the viewport width */
+    background: rgba(20, 20, 40, 0.7); /* Dark semi-transparent background for the section */
+    border-radius: 15px; /* Rounds the corners of the container */
+    box-shadow: 0 0 20px rgba(179, 139, 245, 0.5); /* Adds a subtle purple glow effect around the container */
+    scrollbar-width: thin; /* Makes the scrollbar thinner (for Firefox) */
+    scrollbar-color: #b38bf5 transparent; /* Sets the scrollbar thumb color to purple and track to transparent */
 }
 
-/* Scrollbar for Solar System */
+/* Scrollbar Styling for Solar System */
 .solar-system::-webkit-scrollbar {
-    height: 10px;
+    height: 10px; /* Sets the height of the scrollbar */
 }
 
 .solar-system::-webkit-scrollbar-thumb {
-    background-color: #b38bf5; /* Purple scrollbar */
-    border-radius: 10px;
+    background-color: #b38bf5; /* Purple color for the scrollbar thumb */
+    border-radius: 10px; /* Rounds the scrollbar thumb for a smoother look */
 }
 
 .solar-system::-webkit-scrollbar-track {
-    background: transparent;
+    background: transparent; /* Makes the scrollbar track invisible */
 }
 
 /* Planet Button Styles */
 .planet-button {
-    border-radius: 50%;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    border: none; /* Remove any border */
+    border-radius: 50%; /* Makes each planet button circular */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+    position: relative; /* Positions each button relative to its own container for additional styling */
+    border: none; /* Removes default browser border styles */
 }
 
 /* Remove Focus and Outline */
 .planet-button:focus {
-    outline: none; /* Prevent focus outline from appearing */
-    border: none; /* Remove any border applied during focus */
-    box-shadow: none; /* Prevent additional focus shadow effects */
+    outline: none; /* Removes the default focus outline */
+    border: none; /* Ensures no border appears when focused */
+    box-shadow: none; /* Prevents any focus shadow effects */
 }
 
 /* Hover Effects */
 .planet-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 30px rgba(179, 139, 245, 0.5); /* Purple hover glow */
+    transform: scale(1.1); /* Slightly enlarges the button on hover */
+    box-shadow: 0 0 30px rgba(179, 139, 245, 0.5); /* Adds a purple glow around the button when hovered */
 }
 
 /* Individual Planets (Sizes and Colors) */
 .planet-button[aria-label*="Solen"] {
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, #ffdd33, #ff9900, #e67e00);
-    box-shadow: 0 0 60px rgba(255, 204, 51, 0.8);
+    width: 200px; /* Large size for the Sun */
+    height: 200px; /* Matches the width to make it circular */
+    background: radial-gradient(circle, #ffdd33, #ff9900, #e67e00); /* Gradient representing the Sun */
+    box-shadow: 0 0 60px rgba(255, 204, 51, 0.8); /* Bright yellow glow effect */
 }
 
 .planet-button[aria-label*="Merkurius"] {
     width: 40px;
     height: 40px;
-    background: radial-gradient(circle, #bbb, #999, #666);
+    background: radial-gradient(circle, #bbb, #999, #666); /* Gray gradient representing Mercury */
 }
 
 .planet-button[aria-label*="Venus"] {
     width: 60px;
     height: 60px;
-    background: radial-gradient(circle, #f4b400, #e68a00, #8a5a00);
+    background: radial-gradient(circle, #f4b400, #e68a00, #8a5a00); /* Golden gradient representing Venus */
 }
 
 .planet-button[aria-label*="Jorden"] {
     width: 70px;
     height: 70px;
-    background: radial-gradient(circle, #007acc, #005a99, #003f6f);
-    box-shadow: 0 0 20px rgba(0, 128, 255, 0.6);
+    background: radial-gradient(circle, #007acc, #005a99, #003f6f); /* Blue gradient for Earth */
+    box-shadow: 0 0 20px rgba(0, 128, 255, 0.6); /* Blue glow effect */
 }
 
 .planet-button[aria-label*="Mars"] {
     width: 50px;
     height: 50px;
-    background: radial-gradient(circle, #d14, #b22, #711);
+    background: radial-gradient(circle, #d14, #b22, #711); /* Red gradient for Mars */
 }
 
 .planet-button[aria-label*="Jupiter"] {
     width: 150px;
     height: 150px;
-    background: radial-gradient(circle, #f4d03f, #d69f58, #8d5e34);
+    background: radial-gradient(circle, #f4d03f, #d69f58, #8d5e34); /* Brownish gradient for Jupiter */
 }
 
 .planet-button[aria-label*="Saturnus"] {
     width: 130px;
     height: 130px;
-    background: radial-gradient(circle, #f7d27a, #d6a761, #8c6e43);
-    position: relative;
+    background: radial-gradient(circle, #f7d27a, #d6a761, #8c6e43); /* Yellowish gradient for Saturn */
+    position: relative; /* Prepares for the addition of Saturn's rings */
 }
 
 /* Saturn's Rings */
 .planet-button[aria-label*="Saturnus"]::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 200px;
-    height: 40px;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.1));
-    border-radius: 50%;
-    transform: translate(-50%, -50%) rotate(30deg);
-    z-index: -1;
+    content: ''; /* Adds an empty pseudo-element for the rings */
+    position: absolute; /* Positions the rings relative to the planet */
+    top: 50%; /* Centers the rings vertically */
+    left: 50%; /* Centers the rings horizontally */
+    width: 200px; /* Defines the width of the rings */
+    height: 40px; /* Sets the height of the rings */
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.1)); /* Creates a semi-transparent gradient for the rings */
+    border-radius: 50%; /* Rounds the rings */
+    transform: translate(-50%, -50%) rotate(30deg); /* Centers and tilts the rings */
+    z-index: -1; /* Places the rings behind the planet */
 }
 
 .planet-button[aria-label*="Uranus"] {
     width: 90px;
     height: 90px;
-    background: radial-gradient(circle, #aaf, #88c, #467);
+    background: radial-gradient(circle, #aaf, #88c, #467); /* Blue gradient for Uranus */
 }
 
 .planet-button[aria-label*="Neptunus"] {
     width: 85px;
     height: 85px;
-    background: radial-gradient(circle, #00c, #009, #004);
-    box-shadow: 0 0 25px rgba(0, 0, 255, 0.7);
+    background: radial-gradient(circle, #00c, #009, #004); /* Deep blue gradient for Neptune */
+    box-shadow: 0 0 25px rgba(0, 0, 255, 0.7); /* Strong blue glow effect */
 }
+
 
 /* Planet Info Section */
 .planet-info {
-    display: none; /* Hidden by default */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1.5rem; /* Adjusted gap for spacing */
-    padding: 2rem;
-    background: rgba(20, 20, 40, 0.9); /* Dark background with transparency */
-    border-radius: 15px;
-    max-width: 800px;
-    margin: 2rem auto;
-    box-shadow: 0 0 30px rgba(179, 139, 245, 0.5); /* Purple shadow */
-    color: white;
-    text-align: center;
-    animation: fadeIn 0.3s ease-in-out;
-    position: relative; /* Ensure the button aligns with content */
+    display: none; /* Hide the section by default to prevent it from appearing initially */
+    flex-direction: column; /* Arrange child elements vertically */
+    justify-content: center; /* Center elements vertically within the container */
+    align-items: center; /* Center elements horizontally */
+    gap: 1.5rem; /* Add space between child elements */
+    padding: 2rem; /* Add padding inside the section for spacing */
+    background: rgba(20, 20, 40, 0.9); /* Dark, semi-transparent background for better contrast */
+    border-radius: 15px; /* Rounds the corners for a smoother appearance */
+    max-width: 800px; /* Limit the width for better readability */
+    margin: 2rem auto; /* Center the section horizontally and add vertical spacing */
+    box-shadow: 0 0 30px rgba(179, 139, 245, 0.5); /* Add a soft purple shadow around the section */
+    color: white; /* Set text color to white for better visibility */
+    text-align: center; /* Align all text to the center */
+    animation: fadeIn 0.3s ease-in-out; /* Smooth fade-in effect when the section becomes visible */
+    position: relative; /* Position relative to handle internal positioning if needed */
 }
 
 .planet-info.visible {
-    display: flex; /* Make visible when active */
+    display: flex; /* Make the section visible when active */
 }
 
 /* Planet Info Header */
 .planet-header {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #b38bf5; /* Purple title */
-    margin: 0;
+    font-size: 2rem; /* Large font size for the header */
+    font-weight: bold; /* Bold text to make the header stand out */
+    color: #b38bf5; /* Use a purple color for a visually appealing title */
+    margin: 0; /* Remove any default margin */
 }
 
 .planet-subtitle {
-    font-size: 1.5rem;
-    font-style: italic;
-    color: #d1c4f7; /* Light purple subtitle */
+    font-size: 1.5rem; /* Slightly smaller font for the subtitle */
+    font-style: italic; /* Add an italic style for differentiation */
+    color: #d1c4f7; /* Use a lighter purple for contrast */
 }
 
 /* Planet Description */
 .planet-desc {
-    font-size: 1.2rem;
-    color: #ffffff;
-    margin-top: 1rem;
+    font-size: 1.2rem; /* Standard font size for descriptions */
+    color: #ffffff; /* White text for readability */
+    margin-top: 1rem; /* Add some space above the description text */
 }
 
 /* Planet Stats */
 .planet-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Two columns for stats */
-    gap: 1rem;
-    text-align: left;
-    list-style: none;
-    padding: 0;
-    margin: 1.5rem 0;
-    color: white;
+    display: grid; /* Use a grid layout for stats */
+    grid-template-columns: 1fr 1fr; /* Divide stats into two equal columns */
+    gap: 1rem; /* Add space between grid items */
+    text-align: left; /* Align stats text to the left for readability */
+    list-style: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+    margin: 1.5rem 0; /* Add spacing above and below the stats */
+    color: white; /* Ensure text is white for contrast */
 }
 
 .planet-stats li {
-    background: rgba(255, 255, 255, 0.1); /* Subtle background for each stat */
-    border-radius: 8px;
-    padding: 0.8rem;
-    display: flex;
-    flex-direction: column;
-    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.1); /* Add a semi-transparent background for each stat */
+    border-radius: 8px; /* Round the corners of each stat box */
+    padding: 0.8rem; /* Add padding inside each stat box */
+    display: flex; /* Use flexbox to arrange elements inside the stat box */
+    flex-direction: column; /* Arrange elements vertically */
+    font-size: 1rem; /* Standard font size for stat text */
 }
 
 .planet-stats li b {
-    color: #b38bf5; /* Purple accent for stat labels */
+    color: #b38bf5; /* Use purple for bolded labels to highlight them */
 }
+
 /* Footer Styling */
 .site-footer {
-    text-align: center;
-    padding: 1rem;
-    color: #ffffff;
-    font-size: 1rem;
-    position: relative; /* Allow flexible placement */
+    text-align: center; /* Center the footer content */
+    padding: 1rem; /* Add padding around the footer */
+    color: #ffffff; /* Set footer text color to white */
+    font-size: 1rem; /* Standard font size for footer text */
+    position: relative; /* Allows flexibility for positioning child elements */
 }
 
 .footer-text {
-    margin: 0;
-    font-size: 0.9rem;
-    color: #d1c4f7; /* Light purple text */
+    margin: 0; /* Remove default margin */
+    font-size: 0.9rem; /* Slightly smaller font for footer text */
+    color: #d1c4f7; /* Use a light purple color for subtle styling */
 }
 
 .footer-text:hover {
-    color: #ffd700; /* Golden hover effect */
-    transition: color 0.3s ease;
+    color: #ffd700; /* Change text color to gold when hovered */
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
 }
-
-
 
 /* Back Button */
 .back-button {
-    margin-top: auto; /* Ensure the button is at the bottom */
-    padding: 0.8rem 1.5rem;
-    background: #b38bf5; /* Purple button */
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    align-self: center; /* Center the button horizontally */
+    margin-top: auto; /* Push the button to the bottom of the container */
+    padding: 0.8rem 1.5rem; /* Add padding inside the button for a larger clickable area */
+    background: #b38bf5; /* Purple background for the button */
+    color: white; /* White text for contrast */
+    border: none; /* Remove default border */
+    border-radius: 10px; /* Round the corners of the button */
+    font-size: 1rem; /* Standard font size for button text */
+    cursor: pointer; /* Change cursor to pointer to indicate interactivity */
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transitions for hover effects */
+    align-self: center; /* Center the button horizontally within its container */
 }
 
 .back-button:hover {
-    background-color: #9b6fe0; /* Darker purple on hover */
-    transform: scale(1.1);
+    background-color: #9b6fe0; /* Darker purple background when hovered */
+    transform: scale(1.1); /* Slightly enlarge the button for a hover effect */
 }
+
 
 
 /* Responsive Styles */
@@ -404,6 +393,9 @@ body::before {
     .planet-info {
         padding: 0.5rem; /* Further reduce padding */
     }
+}
+.hidden {
+    display: none; /* Döljer element helt */
 }
 
 
