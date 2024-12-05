@@ -1,61 +1,67 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solsystemet</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8"> <!-- Specifies the character encoding for the document -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures the site is responsive and adapts to different screen sizes -->
+    <title>Solsystemet</title> <!-- The title of the web page -->
+    <link rel="stylesheet" href="styles.css"> <!-- Links the external CSS file for styling -->
 </head>
 <body>
     <!-- Site Header -->
     <header class="site-header">
-        <h1 class="site-title">SOLSYSTEMET</h1>
-        <p class="site-subtitle">SOLARIS</p>
+        <h1 class="site-title">SOLSYSTEMET</h1> <!-- Main heading for the site -->
+        <p class="site-subtitle">SOLARIS</p> <!-- Subtitle to complement the main heading -->
     </header>
 
     <!-- Main Content -->
     <main class="main-content">
         <!-- Search Section -->
-        
         <section class="search-section">
-            <input type="text" id="planet-search" class="search-input" placeholder="Sök efter planeter...">
+            <input type="text" id="planet-search" class="search-input" placeholder="Sök efter planeter..."> 
+            <!-- Input field for users to search planets by name -->
         </section>
 
         <!-- Solar System Section -->
         <section id="planet-list" class="solar-system">
-            
-            <!-- Planets will be dynamically added here by JavaScript -->
+            <!-- Placeholder for dynamically added planet buttons using JavaScript -->
         </section>
 
         <!-- Planet Info Section -->
         <section id="planet-details" class="planet-info hidden">
+            <!-- Detailed information about a selected planet -->
             <article class="planet-article">
                 <header class="planet-header">
-                    <h1 id="planet-title" class="planet-name"></h1>
-                    <h2 id="planet-subtitle" class="planet-latin-name"></h2>
+                    <h1 id="planet-title" class="planet-name"></h1> <!-- Displays the name of the planet -->
+                    <h2 id="planet-subtitle" class="planet-latin-name"></h2> <!-- Displays the Latin name of the planet -->
                 </header>
-                <p id="planet-description" class="planet-desc"></p>
+                <p id="planet-description" class="planet-desc"></p> <!-- Displays a brief description of the planet -->
                 <ul class="planet-stats">
-                    <li><b>Omkrets:</b> <p id="planet-circumference" class="planet-circumference"></p></li>
-                    <li><b>KM från solen:</b> <p id="planet-distance" class="planet-distance"></p></li>
-                    <li><b>Max temperatur:</b> <p id="planet-max-temp" class="planet-max-temp"></p></li>
-                    <li><b>Min temperatur:</b> <p id="planet-min-temp" class="planet-min-temp"></p></li>
+                    <!-- Displays detailed stats of the planet -->
+                    <li><b>Omkrets:</b> <p id="planet-circumference" class="planet-circumference"></p></li> <!-- Planet circumference -->
+                    <li><b>KM från solen:</b> <p id="planet-distance" class="planet-distance"></p></li> <!-- Distance from the Sun -->
+                    <li><b>Max temperatur:</b> <p id="planet-max-temp" class="planet-max-temp"></p></li> <!-- Maximum temperature -->
+                    <li><b>Min temperatur:</b> <p id="planet-min-temp" class="planet-min-temp"></p></li> <!-- Minimum temperature -->
                 </ul>
             </article>
             <button id="return-to-list" class="back-button">Tillbaka till Solsystemet</button>
-
+            <!-- Button to return to the main solar system view -->
         </section>
     </main>
 
     <!-- Site Footer -->
     <footer class="site-footer">
-        <p class="footer-text">© 2024 Solsystemet</p>
+        <p class="footer-text">© 2024 ISmails Solsystemet</p> <!-- Footer text with copyright information -->
     </footer>
 
     <!-- JavaScript -->
-    <script src="x.js"></script>
+    <script src="x.js"></script> <!-- Links the external JavaScript file for functionality -->
 </body>
 </html>
+
+
+
+
+
 
 
 
