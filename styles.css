@@ -1,27 +1,45 @@
-body {
+/* Basen för hela sidan */
+html, body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #000000, #010a35); /* Black and dark blue gradient */
-    color: white;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    padding: 0;
+    height: 100svh; /* Använder den minsta synliga höjden */
+    width: 100vw; /* Full bredd */
+    box-sizing: border-box;
+    overflow-x: hidden; /* Förhindra horisontell scroll */
 }
 
+/* För moderna enheter med safe areas */
+body {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) 
+             env(safe-area-inset-bottom) env(safe-area-inset-left);
+    display: flex; /* Om du vill centrera innehållet */
+    flex-direction: column;
+}
 
+/* Fallback för äldre webbläsare */
+@supports not (height: 100svh) {
+    html, body {
+        height: 100vh; /* Använd 100vh som fallback */
+    }
+}
 
-body::after {
+/* För bakgrundsfärg eller bilder */
+body::before {
     content: '';
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 5px) 10px 10px,
-                radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 3px) 20px 20px;
-    background-size: 100px 100px;
-    z-index: -1;
-    pointer-events: none;
+    width: 100vw;
+    height: 100svh;
+    z-index: -1; /* Placera i bakgrunden */
+    background: linear-gradient(135deg, #000000, #010a35); /* Ändra efter behov */
+}
+
+/* Förhindra layoutskift */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 /* Header Styling */
