@@ -1,33 +1,37 @@
 
-
-// Fetch the API key
+// Fetch the API key from the server
 async function getApiKey() {
     try {
         console.log("Fetching API key...");
+        // Send a POST request to the API to retrieve the key
         const response = await fetch(
             "https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com/keys",
             { method: "POST" }
         );
 
+        // Handle errors if the response is not OK
         if (!response.ok) {
             throw new Error(`Failed to fetch API key: ${response.status}`);
         }
 
+        // Parse the response as JSON and return the API key
         const data = await response.json();
         console.log("Fetched API key:", data.key);
         return data.key;
     } catch (error) {
+        // Log errors and alert the user
         console.error("Error fetching API key:", error);
         alert("Could not retrieve API key. Please try again later.");
         return null;
     }
 }
 
-// Fetch planet data
+// Fetch planet data from the API using the retrieved API key
 async function fetchPlanets(apiKey) {
     try {
         console.log("Fetching planets with API key:", apiKey);
 
+        // Send a GET request to fetch planets
         const response = await fetch(
             "https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com/bodies",
             {
@@ -36,24 +40,28 @@ async function fetchPlanets(apiKey) {
             }
         );
 
+        // Handle errors if the response is not OK
         if (!response.ok) {
             throw new Error(`Failed to fetch planets: ${response.status}`);
         }
 
+        // Parse the response as JSON and return the planet data
         const data = await response.json();
         console.log("Fetched planets:", data.bodies);
         return data.bodies;
     } catch (error) {
+        // Log errors and alert the user
         console.error("Error fetching planets:", error);
         alert("Could not fetch planets. Please try again later.");
         return null;
     }
 }
 
-// Render planets into the planet list section
+// Render the list of planets dynamically into the DOM
 function renderPlanets(planets) {
     const planetList = document.getElementById("planet-list");
 
+    // Ensure the planet list element exists
     if (!planetList) {
         console.error("Element with ID 'planet-list' not found.");
         return;
@@ -62,7 +70,7 @@ function renderPlanets(planets) {
     // Clear previous content to avoid duplicates
     planetList.innerHTML = "";
 
-    // Create planet buttons dynamically
+    // Loop through the planets and create buttons for each
     planets.forEach((planet) => {
         const planetButton = document.createElement("button");
         planetButton.setAttribute("aria-label", `Lär dig mer om ${planet.name}`);
@@ -70,22 +78,26 @@ function renderPlanets(planets) {
         planetButton.textContent = planet.name;
         planetList.appendChild(planetButton);
 
-        // Add click event to show planet details
+        // Add a click event listener to show planet details when clicked
         planetButton.addEventListener("click", () => showPlanetInfo(planet));
     });
     console.log("Rendering planets:", planets);
 }
 
-// Show planet-specific information and switch views
+// Display the selected planet's details
 function showPlanetInfo(planet) {
     const planetList = document.getElementById("planet-list");
     const planetDetails = document.getElementById("planet-details");
+    const searchInput = document.getElementById("planet-search");
 
-    // Hide the planet list and show planet details
-    planetList.style.display = "none";
+    // Hide the planet list and search input
+    planetList.classList.add("hidden");
+    searchInput.classList.add("hidden");
+
+    // Show the planet details section
     planetDetails.classList.add("visible");
 
-    // Populate planet details dynamically
+    // Populate the details section with planet data
     document.getElementById("planet-title").textContent = planet.name;
     document.getElementById("planet-subtitle").textContent = planet.latinName;
     document.getElementById("planet-description").textContent = planet.desc;
@@ -97,30 +109,36 @@ function showPlanetInfo(planet) {
     console.log(`Displaying info for planet: ${planet.name}`);
 }
 
-// Setup back button functionality
+// Set up the back button to return to the planet list
 function setupBackButton() {
     const backButton = document.getElementById("return-to-list");
     backButton.addEventListener("click", () => {
         const planetList = document.getElementById("planet-list");
         const planetDetails = document.getElementById("planet-details");
+        const searchInput = document.getElementById("planet-search");
 
-        // Hide planet details and show planet list
+        // Show the planet list and search input
+        planetList.classList.remove("hidden");
+        searchInput.classList.remove("hidden");
+
+        // Hide the planet details section
         planetDetails.classList.remove("visible");
-        planetList.style.display = "flex";
 
         console.log("Back to planet list.");
     });
 }
 
-// Highlight planets based on search input
+// Filter the planet list based on the user's search input
 function setupSearch(planets) {
     const searchInput = document.getElementById("planet-search");
 
+    // Ensure the search input element exists
     if (!searchInput) {
         console.error("Search input not found.");
         return;
     }
 
+    // Add an input event listener to filter planets as the user types
     searchInput.addEventListener("input", () => {
         const query = searchInput.value.toLowerCase().trim();
         planets.forEach((planet) => {
@@ -128,6 +146,7 @@ function setupSearch(planets) {
                 `button[aria-label='Lär dig mer om ${planet.name}']`
             );
             if (planetButton) {
+                // Show or hide the planet button based on the search query
                 planetButton.style.display = planet.name.toLowerCase().includes(query)
                     ? "block"
                     : "none";
@@ -136,7 +155,7 @@ function setupSearch(planets) {
     });
 }
 
-// Load and initialize the solar system
+// Load and initialize the solar system data
 async function loadSolarSystemData() {
     const apiKey = await getApiKey();
     if (!apiKey) {
@@ -151,11 +170,12 @@ async function loadSolarSystemData() {
         return;
     }
 
-    renderPlanets(planets);   // Render planets in the DOM
-    setupSearch(planets);     // Setup search functionality
-    setupBackButton();        // Setup back button
+    // Initialize the UI with planets and setup functionality
+    renderPlanets(planets);
+    setupSearch(planets);
+    setupBackButton();
 }
 
-// Ensure the DOM is fully loaded before running the script
+// Ensure the DOM is fully loaded before executing the script
 document.addEventListener("DOMContentLoaded", loadSolarSystemData);
 
