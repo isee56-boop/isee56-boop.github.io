@@ -35,61 +35,87 @@ async function getApiKey() {
     }
 }
 
-// Fetch planet data from the API using the retrieved API key
+// Function to fetch planet data from the API using the provided API key
 async function fetchPlanets(apiKey) {
     try {
         console.log("Fetching planets with API key:", apiKey);
 
-        // Send a GET request to fetch planets
+        // Step 1: Send a GET request to the server to retrieve planet data
+        // The server expects the API key in the "x-zocom" header
         const response = await fetch(
             "https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com/bodies",
             {
-                method: "GET",
-                headers: { "x-zocom": apiKey },
+                method: "GET", // The GET method is used to retrieve data
+                headers: { "x-zocom": apiKey }, // Add the API key as a custom header
             }
         );
 
-        // Handle errors if the response is not OK
+        // Step 2: Check if the response is successful
+        // If the status code is not in the 200-299 range, throw an error
         if (!response.ok) {
-            throw new Error(`Failed to fetch planets: ${response.status}`);
+            throw new Error(`Failed to fetch planets: HTTP ${response.status}`);
         }
 
-        // Parse the response as JSON and return the planet data
+        // Step 3: Parse the response JSON to extract the planet data
+        // The server is expected to return an object with a "bodies" property
         const data = await response.json();
-        console.log("Fetched planets:", data.bodies);
-        return data.bodies;
+        console.log("Fetched planets:", data.bodies); // Log the retrieved data for debugging
+        return data.bodies; // Return the array of planet objects
+
     } catch (error) {
-        // Log errors and alert the user
+        // Step 4: Handle any errors that occur during the fetch operation
+        // Log the error to the console to help with debugging
         console.error("Error fetching planets:", error);
+
+        // Notify the user of the failure through an alert message
         alert("Could not fetch planets. Please try again later.");
+
+        // Return null to indicate that no data could be fetched
         return null;
     }
 }
 
-// Render the list of planets dynamically into the DOM
+
+
+// Function to render the list of planets dynamically into the DOM
 function renderPlanets(planets) {
+    // Step 1: Get the DOM element where the planet list will be rendered
     const planetList = document.getElementById("planet-list");
 
-    // Ensure the planet list element exists
+    // Step 2: Ensure the planet list element exists in the DOM
+    // If the element is missing, log an error and stop execution
     if (!planetList) {
         console.error("Element with ID 'planet-list' not found.");
         return;
     }
 
-    // Clear previous content to avoid duplicates
+    // Step 3: Clear any previous content in the planet list container
+    // This prevents duplicate content from being appended
     planetList.innerHTML = "";
 
-    // Loop through the planets and create buttons for each
+    // Step 4: Iterate over the array of planets
     planets.forEach((planet) => {
+        // Create a button element for each planet
         const planetButton = document.createElement("button");
+
+        // Set an accessible label describing the button's purpose
         planetButton.setAttribute("aria-label", `Lär dig mer om ${planet.name}`);
+
+        // Add a CSS class for consistent styling of the buttons
         planetButton.classList.add("planet-button");
+
+        // Set the button text to the name of the planet
         planetButton.textContent = planet.name;
+
+        // Append the button to the planet list container
         planetList.appendChild(planetButton);
 
-        // Add a click event listener to show planet details when clicked
+        // Step 5: Attach a click event listener to the button
+        // When clicked, this will display the details of the selected planet
         planetButton.addEventListener("click", () => showPlanetInfo(planet));
     });
+
+    // Log a confirmation message once the planets are rendered
     console.log("Rendering planets:", planets);
 }
 
