@@ -117,100 +117,119 @@ function renderPlanets(planets) {
 
     // Log a confirmation message once the planets are rendered
     console.log("Rendering planets:", planets);
-}
-
-// Display the selected planet's details
+    }
+// Function to display the details of the selected planet
 function showPlanetInfo(planet) {
-    const planetList = document.getElementById("planet-list");
-    const planetDetails = document.getElementById("planet-details");
-    const searchInput = document.getElementById("planet-search");
+    // Step 1: Get references to the necessary DOM elements
+    const planetList = document.getElementById("planet-list"); // The list of planet buttons
+    const planetDetails = document.getElementById("planet-details"); // The container for planet details
+    const searchInput = document.getElementById("planet-search"); // The search input field
 
-    // Hide the planet list and search input
-    planetList.classList.add("hidden");
-    searchInput.classList.add("hidden");
+    // Step 2: Hide the planet list and search input to focus on the details view
+    planetList.classList.add("hidden"); // Add the 'hidden' class to hide the planet list
+    searchInput.classList.add("hidden"); // Add the 'hidden' class to hide the search input field
 
-    // Show the planet details section
-    planetDetails.classList.add("visible");
+    // Step 3: Make the planet details section visible
+    planetDetails.classList.add("visible"); // Add the 'visible' class to show the details section
 
-    // Populate the details section with planet data
-    document.getElementById("planet-title").textContent = planet.name;
-    document.getElementById("planet-subtitle").textContent = planet.latinName;
-    document.getElementById("planet-description").textContent = planet.desc;
-    document.getElementById("planet-circumference").textContent = `${planet.circumference.toLocaleString()} km`;
-    document.getElementById("planet-distance").textContent = `${planet.distance.toLocaleString()} km`;
-    document.getElementById("planet-max-temp").textContent = `${planet.temp.day}°C`;
-    document.getElementById("planet-min-temp").textContent = `${planet.temp.night}°C`;
+    // Step 4: Populate the planet details section with data from the selected planet
+    document.getElementById("planet-title").textContent = planet.name; // Set the planet name
+    document.getElementById("planet-subtitle").textContent = planet.latinName; // Set the Latin name of the planet
+    document.getElementById("planet-description").textContent = planet.desc; // Set the planet description
+    document.getElementById("planet-circumference").textContent = `${planet.circumference.toLocaleString()} km`; // Format and display the circumference
+    document.getElementById("planet-distance").textContent = `${planet.distance.toLocaleString()} km`; // Format and display the distance from the sun
+    document.getElementById("planet-max-temp").textContent = `${planet.temp.day}°C`; // Display the maximum temperature during the day
+    document.getElementById("planet-min-temp").textContent = `${planet.temp.night}°C`; // Display the minimum temperature during the night
 
-    console.log(`Displaying info for planet: ${planet.name}`);
+    // Step 5: Log a message to the console for debugging purposes
+    console.log(`Displaying info for planet: ${planet.name}`); // Log the name of the displayed planet
 }
 
-// Set up the back button to return to the planet list
+// Function to set up the back button functionality, allowing the user to return to the planet list
 function setupBackButton() {
+    // Get the back button element by its ID
     const backButton = document.getElementById("return-to-list");
+
+    // Attach a click event listener to the back button
     backButton.addEventListener("click", () => {
-        const planetList = document.getElementById("planet-list");
-        const planetDetails = document.getElementById("planet-details");
-        const searchInput = document.getElementById("planet-search");
+        // Get references to the DOM elements that need to be toggled
+        const planetList = document.getElementById("planet-list"); // Planet list container
+        const planetDetails = document.getElementById("planet-details"); // Planet details container
+        const searchInput = document.getElementById("planet-search"); // Search input field
 
-        // Show the planet list and search input
-        planetList.classList.remove("hidden");
-        searchInput.classList.remove("hidden");
+        // Step 1: Show the planet list and search input
+        planetList.classList.remove("hidden"); // Remove 'hidden' class to make the planet list visible
+        searchInput.classList.remove("hidden"); // Remove 'hidden' class to make the search input visible
 
-        // Hide the planet details section
-        planetDetails.classList.remove("visible");
+        // Step 2: Hide the planet details section
+        planetDetails.classList.remove("visible"); // Remove 'visible' class to hide the details view
 
-        console.log("Back to planet list.");
+        // Step 3: Log a message for debugging and confirmation
+        console.log("Back to planet list."); // Log the action for verification
     });
 }
 
-// Filter the planet list based on the user's search input
+// Function to set up the search functionality, filtering the planet list based on user input
 function setupSearch(planets) {
+    // Get the search input element by its ID
     const searchInput = document.getElementById("planet-search");
 
-    // Ensure the search input element exists
+    // Ensure the search input exists before proceeding
     if (!searchInput) {
-        console.error("Search input not found.");
-        return;
+        console.error("Search input not found."); // Log an error if the input element is missing
+        return; // Exit the function early
     }
 
-    // Add an input event listener to filter planets as the user types
+    // Add an event listener to the search input for real-time filtering as the user types
     searchInput.addEventListener("input", () => {
+        // Step 1: Get the search query, converting it to lowercase and trimming whitespace
         const query = searchInput.value.toLowerCase().trim();
+
+        // Step 2: Loop through the planets array to check each planet's name against the query
         planets.forEach((planet) => {
+            // Find the corresponding button for the planet using its name
             const planetButton = document.querySelector(
                 `button[aria-label='Lär dig mer om ${planet.name}']`
             );
+
             if (planetButton) {
-                // Show or hide the planet button based on the search query
+                // Step 3: Show or hide the button based on whether the planet name matches the query
                 planetButton.style.display = planet.name.toLowerCase().includes(query)
-                    ? "block"
-                    : "none";
+                    ? "block" // Show the button if the name matches the query
+                    : "none"; // Hide the button if it doesn't match
             }
         });
     });
 }
 
-// Load and initialize the solar system data
+
+// Function to load and initialize the solar system data
 async function loadSolarSystemData() {
+    // Step 1: Fetch the API key from the server
     const apiKey = await getApiKey();
+
+    // Check if the API key is available
     if (!apiKey) {
-        console.error("No API key available. Exiting.");
-        return;
+        console.error("No API key available. Exiting."); // Log an error if the API key is missing
+        return; // Exit the function to prevent further execution
     }
 
+    // Step 2: Fetch planet data using the retrieved API key
     const planets = await fetchPlanets(apiKey);
 
+    // Check if planet data is available
     if (!planets) {
-        console.error("No planets available. Exiting.");
-        return;
+        console.error("No planets available. Exiting."); // Log an error if no planet data is returned
+        return; // Exit the function to prevent further execution
     }
 
-    // Initialize the UI with planets and setup functionality
-    renderPlanets(planets);
-    setupSearch(planets);
-    setupBackButton();
+    // Step 3: Initialize the UI
+    renderPlanets(planets); // Render the planet list dynamically in the DOM
+    setupSearch(planets);   // Set up the search functionality to filter planets
+    setupBackButton();      // Set up the back button to navigate back to the planet list
 }
 
-// Ensure the DOM is fully loaded before executing the script
+// Event listener to ensure the DOM is fully loaded before executing the script
 document.addEventListener("DOMContentLoaded", loadSolarSystemData);
+// This ensures that the `loadSolarSystemData` function runs only after the HTML content has been fully loaded and is ready to be manipulated.
 
