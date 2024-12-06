@@ -138,6 +138,8 @@ body::after {
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
     position: relative; /* Positions each button relative to its own container for additional styling */
     border: none; /* Removes default browser border styles */
+    cursor: pointer; /* Displays the pointer cursor on hover */
+
 }
 
 /* Remove Focus and Outline */
