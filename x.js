@@ -1,27 +1,36 @@
-
-// Fetch the API key from the server
+// Function to fetch the API key from the server
 async function getApiKey() {
     try {
         console.log("Fetching API key...");
-        // Send a POST request to the API to retrieve the key
+
+        // Step 1: Send a POST request to the server to retrieve the API key
+        // The server is hosted at the specified endpoint
         const response = await fetch(
             "https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com/keys",
-            { method: "POST" }
+            { method: "POST" } // Using the POST method as required by the API
         );
 
-        // Handle errors if the response is not OK
+        // Step 2: Check if the response status is OK (status code 200-299)
+        // If not, throw an error with a detailed status message
         if (!response.ok) {
-            throw new Error(`Failed to fetch API key: ${response.status}`);
+            throw new Error(`Failed to fetch API key: HTTP ${response.status}`);
         }
 
-        // Parse the response as JSON and return the API key
+        // Step 3: Parse the JSON response to extract the API key
+        // Assuming the server returns an object with a "key" property
         const data = await response.json();
-        console.log("Fetched API key:", data.key);
-        return data.key;
+        console.log("Fetched API key:", data.key); // Log the key for debugging
+        return data.key; // Return the API key to be used elsewhere in the code
+
     } catch (error) {
-        // Log errors and alert the user
+        // Step 4: Handle any errors that occur during the fetch operation
+        // Log the error details to the console for debugging
         console.error("Error fetching API key:", error);
+
+        // Notify the user of the error through an alert box
         alert("Could not retrieve API key. Please try again later.");
+
+        // Return null to indicate failure in fetching the API key
         return null;
     }
 }
