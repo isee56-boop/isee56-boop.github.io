@@ -130,3 +130,4 @@ async function loadSolarSystemData() {
 
 document.addEventListener("DOMContentLoaded", loadSolarSystemData);
 
+
